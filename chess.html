@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>chess</title>
+    <meta charset="UTF-8"></meta>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="styles/chess.css">
+    <link rel="stylesheet" href="styles/general.css">
+  </head>
+
+  <body>
+    <div class="main">
+      <!-- 棋盤 -->
+      <div class="board js-board">
+
+        <!-- 開始選時間畫面 -->
+        <div class="start-game-container">
+          <div class="time-choices-container">
+            <div class="time-selector-container">
+              <div class="selector-text">mins</div>
+              <select class="time-select js-time-selector">
+                <option selected value="3">3</option>
+                <option value="5">5</option>
+                <option value="10">10</option>
+                <option value="15">15</option>
+              </select>
+            </div>
+            
+            <div class="addtime-selector-container">
+              <div class="selector-text">secs</div>
+              <select class="time-select js-addtime-selector">
+                <option selected value="1">1</option>
+                <option value="3">3</option>
+                <option value="5">5</option>
+                <option value="10">10</option>
+                <option value="15">15</option>
+                <option value="30">30</option>
+              </select>
+            </div>
+            <button class="confirm-time-button js-confirm-time-button">開始遊戲</button>
+          </div>
+        </div>
+
+        <!-- 結束畫面 -->
+        <div class="end-game-container">
+          <div class="end-game-content">
+            <div class="result-message js-result-message"></div>
+            <div class="description-message js-description-message"></div>
+            <button class="new-game-button js-new-game-button">開新一局</button>
+          </div>
+        </div>
+
+
+
+        <!-- 黑棋盤外區 -->
+        <div class="black-outside-container">
+          <div class="black-die-piece-container"></div>
+          <div class="black-surrender-container js-black-surrender-container">
+            <div class="white-flag-container js-black-white-flag-container">
+              <img class="white-flag" src="images/white-flag.png">
+            </div>
+            <div class="black-ask-surrender-container js-black-ask-surrender-container">
+              <div class="ask-surrender">是否認輸?</div>
+              <button class="surrender-yes js-black-surrender-yes">✅</button>
+              <button class="surrender-no js-black-surrender-no">❌</button>
+            </div>
+          </div>
+          <div class="black-timer-container">
+            <div class="timer js-black-timer">0:00</div>
+          </div>
+        </div>
+
+
+        <!-- 時鐘 -->
+        <div class="clock-container js-clock-container">
+          <img class="clock" src="images/timer.png">   
+        </div>
+        
+
+        
+
+        <!-- 白棋盤外區 -->
+        <div class="white-outside-container">
+          <div class="white-die-piece-container"></div>
+          <div class="white-surrender-container js-white-surrender-container">
+            <div class="white-flag-container js-white-white-flag-container">
+              <img class="white-flag" src="images/white-flag.png">
+            </div>
+            <div class="white-ask-surrender-container js-white-ask-surrender-container">
+              <div class="ask-surrender">是否認輸?</div>
+              <button class="surrender-yes js-white-surrender-yes">✅</button>
+              <button class="surrender-no js-white-surrender-no">❌</button>
+            </div>
+          </div>
+          <div class="white-timer-container">
+            <div class="timer js-white-timer">0:00</div>
+          </div>
+        </div>
+
+        
+        <!-- 記譜區 -->
+        <div class="reveal-notation js-reveal-notation">
+          <div class="reveal-text js-reveal-text">展開棋譜</div>
+        </div>
+        <div class="notation-block">
+          <div class="notation-container js-notation-container"></div>
+        </div>
+        
+
+
+
+        <!-- 變身時不能點棋盤 -->
+        <div class="invisible-barrier js-invisible-barrier"></div>
+
+        <!-- row1 -->
+        <div class="white-single-grid js-single-grid">
+          <img class="piece-img" id="js-piece-img00">
+          <div class="column-coordinate">8</div>
+          <!-- 小兵到底變身選項 -->
+          <div class="transform-container">
+            <div class="transform-choices js-transform-Q">
+              <img class="transform-img" src="images/w-Q.png">
+            </div>
+            <div class="transform-choices js-transform-R">
+              <img class="transform-img" src="images/w-R.png">
+            </div>
+            <div class="transform-choices js-transform-N">
+              <img class="transform-img" src="images/w-N.png">
+            </div>
+            <div class="transform-choices js-transform-B">
+              <img class="transform-img" src="images/w-B.png">
+            </div>
+          </div>
+        </div>
+        <div class="black-single-grid js-single-grid">
+          <img class="piece-img" id="js-piece-img01">
+          <!-- 小兵到底變身選項 -->
+          <div class="transform-container">
+            <div class="transform-choices js-transform-Q">
+              <img class="transform-img" src="images/w-Q.png">
+            </div>
+            <div class="transform-choices js-transform-R">
+              <img class="transform-img" src="images/w-R.png">
+            </div>
+            <div class="transform-choices js-transform-N">
+              <img class="transform-img" src="images/w-N.png">
+            </div>
+            <div class="transform-choices js-transform-B">
+              <img class="transform-img" src="images/w-B.png">
+            </div>
+          </div>
+        </div>
+        <div class="white-single-grid js-single-grid">
+          <img class="piece-img" id="js-piece-img02">
+          <!-- 小兵到底變身選項 -->
+          <div class="transform-container">
+            <div class="transform-choices js-transform-Q">
+              <img class="transform-img" src="images/w-Q.png">
+            </div>
+            <div class="transform-choices js-transform-R">
+              <img class="transform-img" src="images/w-R.png">
+            </div>
+            <div class="transform-choices js-transform-N">
+              <img class="transform-img" src="images/w-N.png">
+            </div>
+            <div class="transform-choices js-transform-B">
+              <img class="transform-img" src="images/w-B.png">
+            </div>
+          </div>
+        </div>
+        <div class="black-single-grid js-single-grid">
+          <img class="piece-img" id="js-piece-img03">
+          <!-- 小兵到底變身選項 -->
+          <div class="transform-container">
+            <div class="transform-choices js-transform-Q">
+              <img class="transform-img" src="images/w-Q.png">
+            </div>
+            <div class="transform-choices js-transform-R">
+              <img class="transform-img" src="images/w-R.png">
+            </div>
+            <div class="transform-choices js-transform-N">
+              <img class="transform-img" src="images/w-N.png">
+            </div>
+            <div class="transform-choices js-transform-B">
+              <img class="transform-img" src="images/w-B.png">
+            </div>
+          </div>
+        </div>
+        <div class="white-single-grid js-single-grid">
+          <img class="piece-img" id="js-piece-img04">
+          <!-- 小兵到底變身選項 -->
+          <div class="transform-container">
+            <div class="transform-choices js-transform-Q">
+              <img class="transform-img" src="images/w-Q.png">
+            </div>
+            <div class="transform-choices js-transform-R">
+              <img class="transform-img" src="images/w-R.png">
+            </div>
+            <div class="transform-choices js-transform-N">
+              <img class="transform-img" src="images/w-N.png">
+            </div>
+            <div class="transform-choices js-transform-B">
+              <img class="transform-img" src="images/w-B.png">
+            </div>
+          </div>
+        </div>
+
+        <div class="black-single-grid js-single-grid">
+          <img class="piece-img" id="js-piece-img05">
+          <!-- 小兵到底變身選項 -->
+          <div class="transform-container">
+            <div class="transform-choices js-transform-Q">
+              <img class="transform-img" src="images/w-Q.png">
+            </div>
+            <div class="transform-choices js-transform-R">
+              <img class="transform-img" src="images/w-R.png">
+            </div>
+            <div class="transform-choices js-transform-N">
+              <img class="transform-img" src="images/w-N.png">
+            </div>
+            <div class="transform-choices js-transform-B">
+              <img class="transform-img" src="images/w-B.png">
+            </div>
+          </div>
+        </div>
+
+        <div class="white-single-grid js-single-grid">
+          <img class="piece-img" id="js-piece-img06">
+          <!-- 小兵到底變身選項 -->
+          <div class="transform-container">
+            <div class="transform-choices js-transform-Q">
+              <img class="transform-img" src="images/w-Q.png">
+            </div>
+            <div class="transform-choices js-transform-R">
+              <img class="transform-img" src="images/w-R.png">
+            </div>
+            <div class="transform-choices js-transform-N">
+              <img class="transform-img" src="images/w-N.png">
+            </div>
+            <div class="transform-choices js-transform-B">
+              <img class="transform-img" src="images/w-B.png">
+            </div>
+          </div>
+        </div>
+
+        <div class="black-single-grid js-single-grid">
+          <img class="piece-img" id="js-piece-img07">
+          <!-- 小兵到底變身選項 -->
+          <div class="transform-container">
+            <div class="transform-choices js-transform-Q">
+              <img class="transform-img" src="images/w-Q.png">
+            </div>
+            <div class="transform-choices js-transform-R">
+              <img class="transform-img" src="images/w-R.png">
+            </div>
+            <div class="transform-choices js-transform-N">
+              <img class="transform-img" src="images/w-N.png">
+            </div>
+            <div class="transform-choices js-transform-B">
+              <img class="transform-img" src="images/w-B.png">
+            </div>
+          </div>
+        </div>
+
+        <!-- row2 -->
+        <div class="black-single-grid js-single-grid">
+          <div class="column-coordinate">7</div>
+          <img class="piece-img" id="js-piece-img10">
+        </div>
+        <div class="white-single-grid js-single-grid">
+          <img class="piece-img" id="js-piece-img11">
+        </div>
+        <div class="black-single-grid js-single-grid">
+          <img class="piece-img" id="js-piece-img12">
+        </div>
+        <div class="white-single-grid js-single-grid">
+          <img class="piece-img" id="js-piece-img13">
+        </div>
+        <div class="black-single-grid js-single-grid">
+          <img class="piece-img" id="js-piece-img14">
+        </div>
+        <div class="white-single-grid js-single-grid">
+          <img class="piece-img" id="js-piece-img15">
+        </div>
+        <div class="black-single-grid js-single-grid">
+          <img class="piece-img" id="js-piece-img16">
+        </div>
+        <div class="white-single-grid js-single-grid">
+          <img class="piece-img" id="js-piece-img17">
+        </div>
+
+        <!-- row3 -->
+        <div class="white-single-grid js-single-grid">
+          <img class="piece-img" id="js-piece-img20">
+          <div class="column-coordinate">6</div>
+        </div>
+        <div class="black-single-grid js-single-grid">
+          <img class="piece-img" id="js-piece-img21">
+        </div>
+        <div class="white-single-grid js-single-grid">
+          <img class="piece-img" id="js-piece-img22">
+        </div>
+        <div class="black-single-grid js-single-grid">
+          <img class="piece-img" id="js-piece-img23">
+        </div>
+        <div class="white-single-grid js-single-grid">
+          <img class="piece-img" id="js-piece-img24">
+        </div>
+        <div class="black-single-grid js-single-grid">
+          <img class="piece-img" id="js-piece-img25">
+        </div>
+        <div class="white-single-grid js-single-grid">
+          <img class="piece-img" id="js-piece-img26">
+        </div>
+        <div class="black-single-grid js-single-grid">
+          <img class="piece-img" id="js-piece-img27">
+        </div>
+
+        <!-- row4 -->
+        <div class="black-single-grid js-single-grid">
+          <div class="column-coordinate">5</div>
+          <img class="piece-img" id="js-piece-img30">
+        </div>
+        <div class="white-single-grid js-single-grid">
+          <img class="piece-img" id="js-piece-img31">
+        </div>
+        <div class="black-single-grid js-single-grid">
+          <img class="piece-img" id="js-piece-img32">
+        </div>
+        <div class="white-single-grid js-single-grid">
+          <img class="piece-img" id="js-piece-img33">
+        </div>
+        <div class="black-single-grid js-single-grid">
+          <img class="piece-img" id="js-piece-img34">
+        </div>
+        <div class="white-single-grid js-single-grid">
+          <img class="piece-img" id="js-piece-img35">
+        </div>
+        <div class="black-single-grid js-single-grid">
+          <img class="piece-img" id="js-piece-img36">
+        </div>
+        <div class="white-single-grid js-single-grid">
+          <img class="piece-img" id="js-piece-img37">
+        </div>
+
+         <!-- row5 -->
+        <div class="white-single-grid js-single-grid">
+          <img class="piece-img" id="js-piece-img40">
+          <div class="column-coordinate">4</div>
+        </div>
+        <div class="black-single-grid js-single-grid">
+          <img class="piece-img" id="js-piece-img41">
+        </div>
+        <div class="white-single-grid js-single-grid">
+          <img class="piece-img" id="js-piece-img42">
+        </div>
+        <div class="black-single-grid js-single-grid">
+          <img class="piece-img" id="js-piece-img43">
+        </div>
+        <div class="white-single-grid js-single-grid">
+          <img class="piece-img" id="js-piece-img44">
+        </div>
+        <div class="black-single-grid js-single-grid">
+          <img class="piece-img" id="js-piece-img45">
+        </div>
+        <div class="white-single-grid js-single-grid">
+          <img class="piece-img" id="js-piece-img46">
+        </div>
+        <div class="black-single-grid js-single-grid">
+          <img class="piece-img" id="js-piece-img47">
+        </div>
+ 
+         <!-- row6 -->
+        <div class="black-single-grid js-single-grid">
+          <div class="column-coordinate">3</div>
+          <img class="piece-img" id="js-piece-img50">
+        </div>
+        <div class="white-single-grid js-single-grid">
+          <img class="piece-img" id="js-piece-img51">
+        </div>
+        <div class="black-single-grid js-single-grid">
+          <img class="piece-img" id="js-piece-img52">
+        </div>
+        <div class="white-single-grid js-single-grid">
+          <img class="piece-img" id="js-piece-img53">
+        </div>
+        <div class="black-single-grid js-single-grid">
+          <img class="piece-img" id="js-piece-img54">
+        </div>
+        <div class="white-single-grid js-single-grid">
+          <img class="piece-img" id="js-piece-img55">
+        </div>
+        <div class="black-single-grid js-single-grid">
+          <img class="piece-img" id="js-piece-img56">
+        </div>
+        <div class="white-single-grid js-single-grid">
+          <img class="piece-img" id="js-piece-img57">
+        </div>
+ 
+         <!-- row7 -->
+        <div class="white-single-grid js-single-grid">
+          <img class="piece-img" id="js-piece-img60">
+          <div class="column-coordinate">2</div>
+        </div>
+        <div class="black-single-grid js-single-grid">
+          <img class="piece-img" id="js-piece-img61">
+        </div>
+        <div class="white-single-grid js-single-grid">
+          <img class="piece-img" id="js-piece-img62">
+        </div>
+        <div class="black-single-grid js-single-grid">
+          <img class="piece-img" id="js-piece-img63">
+        </div>
+        <div class="white-single-grid js-single-grid">
+          <img class="piece-img" id="js-piece-img64">
+        </div>
+        <div class="black-single-grid js-single-grid">
+          <img class="piece-img" id="js-piece-img65">
+        </div>
+        <div class="white-single-grid js-single-grid">
+          <img class="piece-img" id="js-piece-img66">
+        </div>
+        <div class="black-single-grid js-single-grid">
+          <img class="piece-img" id="js-piece-img67">
+        </div>
+ 
+         <!-- row8 -->
+         <div class="black-single-grid js-single-grid">
+          <img class="piece-img" id="js-piece-img70">
+          <div class="column-coordinate">1</div>
+          <div class="row-coordinate">a</div>
+          <!-- 小兵到底變身選項 -->
+          <div class="transform-container">
+            <div class="transform-choices js-transform-Q">
+              <img class="transform-img" src="images/b-Q.png">
+            </div>
+            <div class="transform-choices js-transform-R">
+              <img class="transform-img" src="images/b-R.png">
+            </div>
+            <div class="transform-choices js-transform-N">
+              <img class="transform-img" src="images/b-N.png">
+            </div>
+            <div class="transform-choices js-transform-B">
+              <img class="transform-img" src="images/b-B.png">
+            </div>
+          </div>
+         </div>
+
+         <div class="white-single-grid js-single-grid">
+          <div class="row-coordinate">b</div>
+          <img class="piece-img" id="js-piece-img71">
+          <!-- 小兵到底變身選項 -->
+          <div class="transform-container">
+            <div class="transform-choices js-transform-Q">
+              <img class="transform-img" src="images/b-Q.png">
+            </div>
+            <div class="transform-choices js-transform-R">
+              <img class="transform-img" src="images/b-R.png">
+            </div>
+            <div class="transform-choices js-transform-N">
+              <img class="transform-img" src="images/b-N.png">
+            </div>
+            <div class="transform-choices js-transform-B">
+              <img class="transform-img" src="images/b-B.png">
+            </div>
+          </div>
+         </div>
+
+         <div class="black-single-grid js-single-grid">
+          <div class="row-coordinate">c</div>
+          <img class="piece-img" id="js-piece-img72">
+          <!-- 小兵到底變身選項 -->
+          <div class="transform-container">
+            <div class="transform-choices js-transform-Q">
+              <img class="transform-img" src="images/b-Q.png">
+            </div>
+            <div class="transform-choices js-transform-R">
+              <img class="transform-img" src="images/b-R.png">
+            </div>
+            <div class="transform-choices js-transform-N">
+              <img class="transform-img" src="images/b-N.png">
+            </div>
+            <div class="transform-choices js-transform-B">
+              <img class="transform-img" src="images/b-B.png">
+            </div>
+          </div>
+         </div>
+
+         <div class="white-single-grid js-single-grid">
+          <div class="row-coordinate">d</div>
+          <img class="piece-img" id="js-piece-img73">
+          <!-- 小兵到底變身選項 -->
+          <div class="transform-container">
+            <div class="transform-choices js-transform-Q">
+              <img class="transform-img" src="images/b-Q.png">
+            </div>
+            <div class="transform-choices js-transform-R">
+              <img class="transform-img" src="images/b-R.png">
+            </div>
+            <div class="transform-choices js-transform-N">
+              <img class="transform-img" src="images/b-N.png">
+            </div>
+            <div class="transform-choices js-transform-B">
+              <img class="transform-img" src="images/b-B.png">
+            </div>
+          </div>
+         </div>
+
+         <div class="black-single-grid js-single-grid">
+          <div class="row-coordinate">e</div>
+          <img class="piece-img" id="js-piece-img74">
+          <!-- 小兵到底變身選項 -->
+          <div class="transform-container">
+            <div class="transform-choices js-transform-Q">
+              <img class="transform-img" src="images/b-Q.png">
+            </div>
+            <div class="transform-choices js-transform-R">
+              <img class="transform-img" src="images/b-R.png">
+            </div>
+            <div class="transform-choices js-transform-N">
+              <img class="transform-img" src="images/b-N.png">
+            </div>
+            <div class="transform-choices js-transform-B">
+              <img class="transform-img" src="images/b-B.png">
+            </div>
+          </div>
+         </div>
+
+         <div class="white-single-grid js-single-grid">
+          <div class="row-coordinate">f</div>
+          <img class="piece-img" id="js-piece-img75">
+          <!-- 小兵到底變身選項 -->
+          <div class="transform-container">
+            <div class="transform-choices js-transform-Q">
+              <img class="transform-img" src="images/b-Q.png">
+            </div>
+            <div class="transform-choices js-transform-R">
+              <img class="transform-img" src="images/b-R.png">
+            </div>
+            <div class="transform-choices js-transform-N">
+              <img class="transform-img" src="images/b-N.png">
+            </div>
+            <div class="transform-choices js-transform-B">
+              <img class="transform-img" src="images/b-B.png">
+            </div>
+          </div>
+         </div>
+
+         <div class="black-single-grid js-single-grid">
+          <div class="row-coordinate">g</div>
+          <img class="piece-img" id="js-piece-img76">
+          <!-- 小兵到底變身選項 -->
+          <div class="transform-container">
+            <div class="transform-choices js-transform-Q">
+              <img class="transform-img" src="images/b-Q.png">
+            </div>
+            <div class="transform-choices js-transform-R">
+              <img class="transform-img" src="images/b-R.png">
+            </div>
+            <div class="transform-choices js-transform-N">
+              <img class="transform-img" src="images/b-N.png">
+            </div>
+            <div class="transform-choices js-transform-B">
+              <img class="transform-img" src="images/b-B.png">
+            </div>
+          </div>
+         </div>
+
+         <div class="white-single-grid js-single-grid">
+          <div class="row-coordinate">h</div>
+          <img class="piece-img" id="js-piece-img77">
+          <!-- 小兵到底變身選項 -->
+          <div class="transform-container">
+            <div class="transform-choices js-transform-Q">
+              <img class="transform-img" src="images/b-Q.png">
+            </div>
+            <div class="transform-choices js-transform-R">
+              <img class="transform-img" src="images/b-R.png">
+            </div>
+            <div class="transform-choices js-transform-N">
+              <img class="transform-img" src="images/b-N.png">
+            </div>
+            <div class="transform-choices js-transform-B">
+              <img class="transform-img" src="images/b-B.png">
+            </div>
+          </div>
+         </div>
+        
+
+
+      </div>
+    </div>
+
+    <script src="scripts/chess.js"></script>
+  </body>
+</html>
